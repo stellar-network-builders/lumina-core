@@ -49,6 +49,11 @@ pub const USER_LST_SHARES: &str = "USER_LST_SHARES";
 pub const UNBONDING_REQUESTS: &str = "UNBONDING_REQUESTS";
 pub const UNBONDING_QUEUE: &str = "UNBONDING_QUEUE";
 
+// Protocol Sunset and Migration storage keys (Issue #280)
+pub const PROTOCOL_SUNSET: &str = "PROTOCOL_SUNSET";
+pub const MIGRATION_PAYLOADS: &str = "MIGRATION_PAYLOADS";
+pub const RELAYER_MIGRATIONS: &str = "RELAYER_MIGRATIONS";
+
 // 48 hours in seconds
 const TIMELOCK_DURATION: u64 = 172_800;
 
