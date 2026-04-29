@@ -18,7 +18,7 @@ use soroban_sdk::{
 mod factory;
 pub use factory::{ VestingFactory, VestingFactoryClient };
 mod oracle;
-pub use oracle::{ OracleClient, OracleCondition, OracleType, ComparisonOperator, PerformanceCliff };
+pub use oracle::{ OracleClient, OracleCondition, OracleType, ComparisonOperator, PerformanceCliff, PerformanceMultiplier };
 
 pub mod stake;
 pub use stake::{
@@ -85,6 +85,7 @@ pub enum DataKey {
     GlobalAccelerationPct,
     RevokedVaults,
     VaultSuccession(u64),
+    VaultVestingMultiplier(u64),
 }
 
 #[contracttype]
@@ -898,6 +899,17 @@ impl VestingContract {
             let now = env.ledger().timestamp();
             now > vault.start_time
         }
+    }
+
+    pub fn set_vesting_multiplier(env: Env, vault_id: u64, multiplier: PerformanceMultiplier) {
+        Self::require_admin(&env);
+        // Verify vault exists
+        Self::get_vault_internal(&env, vault_id);
+        env.storage().instance().set(&DataKey::VaultVestingMultiplier(vault_id), &multiplier);
+    }
+
+    pub fn get_vesting_multiplier(env: Env, vault_id: u64) -> Option<PerformanceMultiplier> {
+        env.storage().instance().get(&DataKey::VaultVestingMultiplier(vault_id))
     }
 
     pub fn create_vault_with_cliff(
@@ -1912,6 +1924,8 @@ impl VestingContract {
             }
         }
 
+        let mut base_vested = 0i128;
+
         // If vault is paused, calculate based on pause timestamp
         if let Some(paused_info) = env
             .storage()
@@ -1920,22 +1934,22 @@ impl VestingContract {
         {
             let pause_time = paused_info.pause_timestamp;
             if pause_time <= vault.start_time {
-                return 0;
-            }
-            if pause_time >= vault.end_time {
-                return allocation.total_amount;
-            }
-
-            let duration = (vault.end_time - vault.start_time) as i128;
-            let elapsed = (pause_time - vault.start_time) as i128;
-
-            if vault.step_duration > 0 {
-                let steps = duration / (vault.step_duration as i128);
-                if steps == 0 { return 0; }
-                let completed = elapsed / (vault.step_duration as i128);
-                (allocation.total_amount * completed) / steps
+                base_vested = 0;
+            } else if pause_time >= vault.end_time {
+                base_vested = allocation.total_amount;
             } else {
-                (allocation.total_amount * elapsed) / duration
+                let duration = (vault.end_time - vault.start_time) as i128;
+                let elapsed = (pause_time - vault.start_time) as i128;
+
+                if vault.step_duration > 0 {
+                    let steps = duration / (vault.step_duration as i128);
+                    if steps > 0 {
+                        let completed = elapsed / (vault.step_duration as i128);
+                        base_vested = (allocation.total_amount * completed) / steps;
+                    }
+                } else {
+                    base_vested = (allocation.total_amount * elapsed) / duration;
+                }
             }
         } else if env.storage().instance().has(&DataKey::VaultMilestones(id)) {
             let milestones: Vec<Milestone> = env
@@ -1952,7 +1966,7 @@ impl VestingContract {
             if pct > 100 {
                 pct = 100;
             }
-            (allocation.total_amount * (pct as i128)) / 100
+            base_vested = (allocation.total_amount * (pct as i128)) / 100;
         } else {
             let mut now = env.ledger().timestamp();
             let accel_pct: u32 = env.storage().instance().get(&DataKey::GlobalAccelerationPct).unwrap_or(0);
@@ -1963,19 +1977,39 @@ impl VestingContract {
                 now += shift;
             }
 
-            if now <= vault.start_time { return 0; }
-            if now >= vault.end_time { return allocation.total_amount; }
-            
-            let elapsed = (now - vault.start_time) as i128;
-
-            if vault.step_duration > 0 {
-                let steps = duration / vault.step_duration as i128;
-                if steps == 0 { return 0; }
-                let completed = elapsed / vault.step_duration as i128;
-                (allocation.total_amount * completed) / steps
+            if now <= vault.start_time {
+                base_vested = 0;
+            } else if now >= vault.end_time {
+                base_vested = allocation.total_amount;
             } else {
-                (allocation.total_amount * elapsed) / duration
+                let elapsed = (now - vault.start_time) as i128;
+
+                if vault.step_duration > 0 {
+                    let steps = duration / vault.step_duration as i128;
+                    if steps > 0 {
+                        let completed = elapsed / vault.step_duration as i128;
+                        base_vested = (allocation.total_amount * completed) / steps;
+                    }
+                } else {
+                    base_vested = (allocation.total_amount * elapsed) / duration;
+                }
             }
+        }
+
+        // Apply performance multiplier if set
+        if let Some(multiplier) = env.storage().instance().get::<_, PerformanceMultiplier>(&DataKey::VaultVestingMultiplier(id)) {
+            let multiplier_bps = OracleClient::get_multiplier(env, &multiplier);
+            let multiplied = (base_vested * multiplier_bps as i128) / 10000;
+            
+            // Cap at total_amount to prevent over-claiming (unless bonus tokens are separately funded, 
+            // but in this architecture they aren't)
+            if multiplied > allocation.total_amount {
+                allocation.total_amount
+            } else {
+                multiplied
+            }
+        } else {
+            base_vested
         }
     }
 
@@ -2092,3 +2126,5 @@ mod invariant_test;
 mod diversified_test;
 #[cfg(test)]
 mod diversified_simple_test;
+#[cfg(test)]
+mod performance_multiplier_test;

@@ -37,6 +37,14 @@ pub struct PerformanceCliff {
 }
 
 #[contracttype]
+#[derive(Clone, Debug)]
+pub struct PerformanceMultiplier {
+    pub condition: OracleCondition,
+    pub multiplier_bps: u32,        // Basis points (e.g., 12000 = 1.2x)
+    pub fallback_multiplier_bps: u32, // Basis points if condition not met (e.g., 10000 = 1.0x)
+}
+
+#[contracttype]
 pub struct OracleQuery {
     pub vault_id: u64,
     pub conditions: Vec<OracleCondition>,
@@ -171,6 +179,21 @@ impl OracleClient {
             target_value,
             operator,
             parameter: Some(parameter),
+        }
+    }
+
+    pub fn get_multiplier(env: &Env, multiplier: &PerformanceMultiplier) -> u32 {
+        let current_value = Self::query_oracle(env, &multiplier.condition);
+        let condition_met = Self::compare_values(
+            current_value,
+            multiplier.condition.target_value,
+            &multiplier.condition.operator
+        );
+
+        if condition_met {
+            multiplier.multiplier_bps
+        } else {
+            multiplier.fallback_multiplier_bps
         }
     }
 }
