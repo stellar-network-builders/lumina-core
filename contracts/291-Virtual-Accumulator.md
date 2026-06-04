@@ -1,6 +1,6 @@
 # Issue #291: Precision - Implement 'Virtual-Accumulator' for High-Frequency Linear Vesting
 
-**Repository:** Vesting-Vault/Contracts  
+**Repository:** Lumina-etwork/Contracts  
 **Focus Area:** Precision handling for linear vesting and smart contract security  
 **Priority:** High  
 

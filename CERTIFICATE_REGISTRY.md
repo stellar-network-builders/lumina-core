@@ -2,7 +2,7 @@
 
 ## Overview
 
-The On-Chain Vesting Certificate Registry transforms the Vesting-Vault from a simple payment tool into a comprehensive "Career Infrastructure" layer for the Stellar developer ecosystem. This registry serves as a central "Source of Truth" for all completed vests, enabling Web3 Job Boards to verify a candidate's "Proof of Work" and "Loyalty."
+The On-Chain Vesting Certificate Registry transforms the Lumina-etwork from a simple payment tool into a comprehensive "Career Infrastructure" layer for the Stellar developer ecosystem. This registry serves as a central "Source of Truth" for all completed vests, enabling Web3 Job Boards to verify a candidate's "Proof of Work" and "Loyalty."
 
 ## Features
 

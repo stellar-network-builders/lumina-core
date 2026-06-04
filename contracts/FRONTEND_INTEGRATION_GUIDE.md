@@ -1,7 +1,7 @@
 # Frontend Integration Guide for Compliance Error Codes
 
 ## Overview
-This guide provides comprehensive instructions for frontend developers to integrate with the standardized compliance error codes in Vesting-Vault contracts.
+This guide provides comprehensive instructions for frontend developers to integrate with the standardized compliance error codes in Lumina-etwork contracts.
 
 ## Quick Start
 

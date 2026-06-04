@@ -1,6 +1,6 @@
 # Issue #278: Fraudulent Grant Clawback with DAO Arbitration Panel
 
-**Repository:** Vesting-Vault/Contracts  
+**Repository:** Lumina-etwork/Contracts  
 **Labels:** governance, arbitration, security  
 **Priority:** High  
 

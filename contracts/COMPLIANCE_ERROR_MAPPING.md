@@ -1,7 +1,7 @@
 # Compliance Error Codes Mapping Guide
 
 ## Overview
-This document provides a comprehensive mapping of standardized compliance error codes for frontend integration with Vesting-Vault contracts.
+This document provides a comprehensive mapping of standardized compliance error codes for frontend integration with Lumina-etwork contracts.
 
 ## Error Code Structure
 

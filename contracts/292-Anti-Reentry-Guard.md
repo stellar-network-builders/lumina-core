@@ -1,6 +1,6 @@
 # Issue #292: Security - Add Anti-Reentry Guard for External Asset Transfers during Claiming
 
-**Repository:** Vesting-Vault/Contracts  
+**Repository:** Lumina-etwork/Contracts  
 **Focus Area:** Precision handling for linear vesting and smart contract security  
 **Priority:** High  
 

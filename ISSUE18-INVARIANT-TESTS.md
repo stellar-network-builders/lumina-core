@@ -2,7 +2,7 @@
 
 ## 🎯 Issue Summary
 - **Issue**: #18 - Invariant Tests
-- **Repository**: Vesting-Vault/Contracts
+- **Repository**: Lumina-etwork/Contracts
 - **Priority**: High
 - **Labels**: testing, verification
 

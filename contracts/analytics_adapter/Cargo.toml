@@ -2,7 +2,7 @@
 name    = "analytics-adapter"
 version = "0.1.0"
 edition = "2021"
-description = "Read-only analytics adapter for Vesting-Vault — Issue #279"
+description = "Read-only analytics adapter for Lumina-etwork — Issue #279"
 
 [lib]
 crate-type = ["cdylib", "rlib"]

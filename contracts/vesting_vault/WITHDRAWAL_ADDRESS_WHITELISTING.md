@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Withdrawal Address Whitelisting feature provides **multi-layer defense** against phishing hacks for Vesting Vault beneficiaries. This security enhancement allows beneficiaries to "lock" their payout to a specific hardware wallet address with a **48-hour timelock**, making the Vesting-Vault one of the safest places to store long-term digital wealth on the Stellar network.
+The Withdrawal Address Whitelisting feature provides **multi-layer defense** against phishing hacks for Vesting Vault beneficiaries. This security enhancement allows beneficiaries to "lock" their payout to a specific hardware wallet address with a **48-hour timelock**, making the Lumina-etwork one of the safest places to store long-term digital wealth on the Stellar network.
 
 ## Security Benefits
 
@@ -247,4 +247,4 @@ Potential future improvements could include:
 
 ---
 
-**This feature makes the Vesting-Vault one of the most secure places to store long-term digital wealth on the Stellar network, providing robust protection against phishing attacks while maintaining user control and flexibility.**
+**This feature makes the Lumina-etwork one of the most secure places to store long-term digital wealth on the Stellar network, providing robust protection against phishing attacks while maintaining user control and flexibility.**

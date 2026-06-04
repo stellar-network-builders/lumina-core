@@ -1,6 +1,6 @@
 # Issue #299: Security - Implement 'Authorized-Lessor-Registry' for Institutional Vesting
 
-**Repository:** Vesting-Vault/Contracts  
+**Repository:** Lumina-etwork/Contracts  
 **Focus Area:** Precision handling for linear vesting and smart contract security  
 **Priority:** High  
 

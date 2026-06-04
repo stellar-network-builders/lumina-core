@@ -302,7 +302,7 @@ The implementation includes comprehensive tests covering:
 
 This implementation provides a robust foundation for Zero-Knowledge Accredited Investor Verification in the Vesting Vault contract. The privacy-preserving approach enables compliance with accredited investor requirements while protecting sensitive financial information.
 
-The modular architecture allows for future enhancements and production ZK-SNARK integration, making Vesting-Vault a leader in privacy-preserving DeFi solutions for institutional and high-net-worth investors.
+The modular architecture allows for future enhancements and production ZK-SNARK integration, making Lumina-etwork a leader in privacy-preserving DeFi solutions for institutional and high-net-worth investors.
 
 ## Next Steps
 

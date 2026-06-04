@@ -1,7 +1,7 @@
 # Compliance Error Code Examples and Test Cases
 
 ## Overview
-This document provides comprehensive examples and test cases for the standardized compliance error codes implemented across Vesting-Vault contracts.
+This document provides comprehensive examples and test cases for the standardized compliance error codes implemented across Lumina-etwork contracts.
 
 ## Test Case Structure
 
@@ -777,4 +777,4 @@ fn test_compliance_assertions() {
 }
 ```
 
-This comprehensive test suite ensures that all compliance error codes work correctly across different scenarios and that the error handling is consistent throughout the Vesting-Vault contracts.
+This comprehensive test suite ensures that all compliance error codes work correctly across different scenarios and that the error handling is consistent throughout the Lumina-etwork contracts.
